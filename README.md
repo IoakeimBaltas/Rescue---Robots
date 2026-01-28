@@ -1,18 +1,32 @@
-## Getting Started
+Μικρό Σύστημα Διαχείρισης Ρομπότ Διάσωσης
+Όνομα: Ιωακείμ Μπαλτάς
+Μάθημα: Σχεδιαστικά Πρότυπα
+Ημερομηνία: Ιανουάριος 2026
+1. Εισαγωγή
+Στην παρούσα εργασία υλοποιήθηκε μια εφαρμογή κονσόλας σε Java που προσομοιώνει μια αποστολή διάσωσης. Στην αποστολή συμμετέχουν δύο είδη ρομπότ: τα Explorer Robots, που είναι υπεύθυνα για την εύρεση επιζώντων, και τα Medical Robots, που αναλαμβάνουν τη διάσωση αυτών που βρέθηκαν. Η προσομοίωση εξελίσσεται σε γύρους, όπου κάθε ρομπότ καταναλώνει ένα ποσοστό της μπαταρίας του.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+2. Σχεδιαστικά Πρότυπα (Design Patterns)
+Για την σωστή οργάνωση του κώδικα και σύμφωνα με τις απαιτήσεις της εκφώνησης, χρησιμοποιήθηκαν τα εξής 4 σχεδιαστικά πρότυπα:
 
-## Folder Structure
+α. Factory Pattern
+Το χρησιμοποίησα στην κλάση RobotFactory. Αυτό το πρότυπο βοηθάει να δημιουργούμε ρομπότ χωρίς να γράφουμε κάθε φορά new ExplorerRobot(...) μέσα στην Main. Η μέθοδος create δέχεται ένα String π.χ. "explorer" και μας επιστρέφει το σωστό αντικείμενο. Έτσι, αν αργότερα θέλαμε να προσθέσουμε κι άλλο τύπο ρομπότ, θα αλλάζαμε μόνο το Factory.
 
-The workspace contains two folders by default, where:
+β. Strategy Pattern
+Το πρότυπο αυτό φαίνεται στο interface RobotStrategy και στις κλάσεις SearchStrategy και RescueStrategy. Κάθε ρομπότ έχει ένα πεδίο τύπου RobotStrategy.
+Ο Explorer χρησιμοποιεί την στρατηγική αναζήτησης για να παράγει τυχαία 0, 1 ή 2 επιζώντες.
+Ο Medical χρησιμοποιεί την στρατηγική διάσωσης.
+Αυτό μας επιτρέπει να αλλάζουμε την συμπεριφορά του ρομπότ την ώρα που τρέχει το πρόγραμμα.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+γ. Observer Pattern
+Για τα "Events" που ζητήθηκαν, υλοποίησα το Observer Pattern. Υπάρχει το interface RobotObserver και η κλάση ConsoleObserver. Κάθε φορά που ένα ρομπότ βρίσκει κάποιον ή κάνει μια διάσωση, "ειδοποιεί" τον Observer. Ο Observer στη συνέχεια εκτυπώνει το μήνυμα στην κονσόλα με το πρόθεμα "EVENT:". Έτσι ο κώδικας του ρομπότ δεν εξαρτάται άμεσα από την System.out.println.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+δ. Builder Pattern
+Χρησιμοποίησα το Builder Pattern ως εσωτερική static κλάση μέσα στην Robot. Αυτό το pattern είναι χρήσιμο γιατί μας επιτρέπει να φτιάχνουμε το ρομπότ βήμα-βήμα. Στο μενού της εφαρμογής, ο χρήστης μπορεί να επιλέξει το ID και την αρχική μπαταρία, και ο Builder τα συνδυάζει για να χτίσει το τελικό αντικείμενο.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+3. Λεπτομέρειες Υλοποίησης & Ατέλειες
+Η εφαρμογή τρέχει σε ένα loop μέχρι να σωθούν 5 άτομα ή να ξεμείνουν όλα τα ρομπότ από ενέργεια.
+Μπαταρία: Ο Explorer χάνει 10% και ο Medical 15% σε κάθε γύρο.
+Περιορισμοί: Μια βασική ατέλεια της υλοποίησης είναι ότι δεν υπάρχει έλεγχος για λάθος εισαγωγή δεδομένων (Exception Handling) στο Scanner. Αν ο χρήστης βάλει γράμματα αντί για αριθμό, το πρόγραμμα σταματάει απότομα. Επίσης, η λίστα των ρομπότ είναι μια απλή ArrayList και οι επιζώντες αποθηκεύονται σε μια static μεταβλητή για ευκολία, κάτι που ίσως σε μεγαλύτερα συστήματα να μην ήταν η βέλτιστη λύση.
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+4. Επίλογος
+Η εργασία βοήθησε στην κατανόηση του πώς τα design patterns κάνουν τον κώδικα πιο επεκτάσιμο και πώς μπορούν να συνεργάζονται διαφορετικά πρότυπα μεταξύ τους (π.χ. το Factory να χρησιμοποιεί τον Builder).
